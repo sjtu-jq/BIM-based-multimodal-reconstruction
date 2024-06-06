@@ -1,7 +1,6 @@
 import sqlite3
 import argparse
 
-
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--database_path", required=True) # path to database.db
@@ -67,4 +66,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # command line example: python export_match_relationship.py --database_path database.db --match_list_path match_pair --min_num_matches 20
+    # command line example: python export_match_relationship.py --database_path database.db --match_list_path match_pairs --min_num_matches 200

@@ -8,7 +8,7 @@ function harmonized_data_2 = data_harmonize(ref_data_1, adjust_data_2, ref_pt_1,
     
     if nargin == 4
         alpha_radius = size(ref_data_1, 2)/3;
-        show_flag = 'show';
+        show_flag = 'dontshow';
         objective_model = 'L2';
     end
     
@@ -75,7 +75,7 @@ function harmonized_data_2 = data_harmonize(ref_data_1, adjust_data_2, ref_pt_1,
         data_1 = ref_data_1(overlap_area_1);
         data_2 = adjust_data_2(overlap_area_2);
         
-        [scale_factor, trans_factor] = harmonize_temp(data_1, data_2, 'show');
+        [scale_factor, trans_factor] = harmonize_temp(data_1, data_2, show_flag);
         harmonized_data_2 = scale_factor*adjust_data_2 + trans_factor;
     end
 
@@ -120,7 +120,9 @@ function new_color_index = harmonize_image_2(input_ref_channel, input_har_channe
         end
         translation_factor(iQuantile) = X(1);
         scale_factor(iQuantile) = X(2);
-        fprintf('[%2d]: scale_factor = %.2f \t translation_factor = %.2f\n', iQuantile, translation_factor(iQuantile), scale_factor(iQuantile));
+        if strcmpi(show_flag, 'show') 
+            fprintf('[%2d]: scale_factor = %.2f \t translation_factor = %.2f\n', iQuantile, translation_factor(iQuantile), scale_factor(iQuantile));
+        end
         fitting_har(iQuantile) = fitting_har(iQuantile) * translation_factor(iQuantile) + scale_factor(iQuantile);
     end
     fitting_har(quantile_level) = fitting_har(quantile_level) * translation_factor(quantile_level-1) + scale_factor(quantile_level-1);

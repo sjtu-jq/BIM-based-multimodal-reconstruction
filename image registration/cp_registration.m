@@ -1,11 +1,11 @@
-function [P1, P2, tform, reg_error, NOEP] = cp_registration(input_I1, input_I2, iterationNum, showflag)
+function [P1, P2, tform] = cp_registration(input_I1, input_I2, iterationNum, showflag)
 % [P1, P2, tform, reg_error, NOEP] = cp_registration(I1, I2, iterationNum, showflag)
 
 if nargin == 2
     iterationNum = 1;
-    showflag = 0;
+    showflag = false;
 elseif nargin == 3
-    showflag = 0;
+    showflag = false;
 end
 
 I1gray = input_I1;
@@ -18,7 +18,7 @@ if size(input_I2, 3) == 3
     I2gray = rgb2gray(input_I2);
 end
 
-height = min( size(I1gray,1), 1200);
+height = min( [size(I1gray,1), size(I2gray,1), 800]);
 [I1, I2, scale] = cp_resizeImage(I1gray, I2gray, height);
 
 
@@ -53,19 +53,6 @@ P2(:,1) = size(I2gray,2) / 2 + scale(2) * ( P2(:,1)-size(I2,2)/2);
 
 [tform, InlierInd, status_code] = estimateGeometricTransform2D(P2, P1, 'projective', 'MaxNumTrials', 3000, ...
     'MaxDistance', 2*max(size(input_I1,1), size(input_I2,1)) / min(size(input_I1, 1), size(input_I2,1)));
-
-if ~status_code
-    P2_t = [P2 ones([length(P2) 1])] * tform.T;
-    P2_t = P2_t(:, 1:2) ./ P2_t(:, 3);
-    pixel_deviation = P1 - P2_t;
-    reg_error = sqrt( sum(pixel_deviation(:,1).^2 + pixel_deviation(:,2).^2) / (length(pixel_deviation)-1) );
-    I2_trans = imwarp(input_I2, tform, 'OutputView', imref2d(size(input_I1)));
-    edge_img1 = edge( rgb2gray(input_I1), 'Canny');
-    edge_img2 = edge( rgb2gray(I2_trans), 'Canny');
-    NOEP = sum(sum(edge_img1 & edge_img2)) / sum(edge_img1(:));
-else
-    error('Image registration failed!');
-end
     
 end
 

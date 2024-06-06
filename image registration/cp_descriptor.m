@@ -44,7 +44,7 @@ costheta = cos(theta);
 [xx,yy] = meshgrid(-NBP/2 : NBP/2);
 wincoef = exp( -(xx.^2 + yy.^2)/NBP^2 * 2);
 %========= compute descriptors ==========%
-for p = 1: key_num
+parfor p = 1: key_num
     magnitude = magnitudes;
     sp = s(p);
     xp= x(p); % u == x
@@ -74,7 +74,7 @@ for p = 1: key_num
         mag = magnitude(yp + dy(kk), xp + dx(kk)); 
         angle = angles(yp + dy(kk), xp + dx(kk)) ;  
         angle = mod(angle - theta(p), pi); 
-% Cubic interpolation           
+        % Cubic interpolation
         nt = NBO * angle / pi ;
         binx = floor( nx(kk) - 0.5 ) ;
         biny = floor( ny(kk) - 0.5 ) ;

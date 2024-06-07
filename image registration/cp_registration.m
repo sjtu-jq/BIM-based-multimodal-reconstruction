@@ -1,5 +1,5 @@
 function [P1, P2, tform] = cp_registration(input_I1, input_I2, iterationNum, showflag)
-% [P1, P2, tform, reg_error, NOEP] = cp_registration(I1, I2, iterationNum, showflag)
+% [P1, P2, tform] = cp_registration(I1, I2, iterationNum, showflag)
 
 if nargin == 2
     iterationNum = 1;

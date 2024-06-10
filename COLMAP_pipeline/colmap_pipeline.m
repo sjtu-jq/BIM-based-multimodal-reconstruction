@@ -82,6 +82,18 @@ if sfm_pipeline
     if cmd_status
         error('[error] copy ./sparse/0/* files failed due to: %s', cmd_out);
     end
+        
+    % export the .nvm file, for MeshLab texture mapping on BIM
+    tic;
+    nvm_filename = fullfile(source_images_path, 'colmap_export.nvm');
+    export_command = stitchStrings(colmap_bat_path, 'model_converter', '--input_path', sparse_path,...
+        '--output_path', nvm_filename, '--output_type', 'NVM');
+    [cmd_status, cmd_out] = system(export_command);
+    if cmd_status
+        error('[error] System executed the command: %s failed!\n system output: %s\n', export_command, cmd_out);
+    else
+        fprintf('cmd output:%s\n[info]>>>>>> NVM Model export completed: %s <<<<<<<< \n', 'SUCCEEDED!', obj.Second2MSMFormat(toc));
+    end
 end
 %% MVS pipeline
 if mvs_pipeline
@@ -124,18 +136,6 @@ if mvs_pipeline
         error('[error] System executed the command: %s failed!\n system output: %s\n', fusion_command, cmd_out);
     else
         fprintf('cmd output:%s\n[info]>>>>>> Stereo fusion completed: %s <<<<<<<< \n', 'SUCCEEDED!', obj.Second2MSMFormat(toc));
-    end
-    
-    % export the .nvm file, for MeshLab texture mapping
-    tic;
-    nvm_filename = fullfile(input_project_path, 'colmap_export.nvm');
-    export_command = stitchStrings(colmap_bat_path, 'model_converter', '--input_path', sparse_path,...
-        '--output_path', nvm_filename, '--output_type', 'NVM');
-    [cmd_status, cmd_out] = system(export_command);
-    if cmd_status
-        error('[error] System executed the command: %s failed!\n system output: %s\n', export_command, cmd_out);
-    else
-        fprintf('cmd output:%s\n[info]>>>>>> NVM Model export completed: %s <<<<<<<< \n', 'SUCCEEDED!', obj.Second2MSMFormat(toc));
     end
 end
 end

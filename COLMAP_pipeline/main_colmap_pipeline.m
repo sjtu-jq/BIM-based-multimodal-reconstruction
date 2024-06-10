@@ -3,10 +3,14 @@
 
 close all force; clear; clc;
 
-%% initial COLMAP path
+%% initial COLMAP project path
 
-colmap_bat_path = 'path-to-your\COLMAP-3.8-windows-cuda\COLMAP.bat';
-project_path = '\path-to-your-source-images-parent folder\';
+% .\Project\
+%     |
+%     |__ .\images
+
+colmap_bat_path = '\absolute-path-to-your\COLMAP-3.8-windows-cuda\COLMAP.bat';
+project_path = '\absolute-path-to-your\Project\';
 
 colmap_pipeline(dst_project_path, colmap_project_path);
 

@@ -29,7 +29,7 @@ maxRMSE = 12;
 AffineTrans = zeros([3 3 iterationNum]);
 while  iteration < iterationNum
     % fprintf('\n%d(th) iteration of registration...\n',iteration);
-    % for infrared matching, I recommended:
+    % for infrared matching, I recommend:
     % [P1, P2, ~] = cp_singleRegis(I1_itea, I2, 20,   maxRMSE, iteration,  2,    2,      6,    showflag    , I2gray);
     % otherwise:
     % [P1, P2, ~] = cp_singleRegis(I1_itea, I2, 20,   maxRMSE, iteration,  0,    0,      6,    showflag    , I2gray);
